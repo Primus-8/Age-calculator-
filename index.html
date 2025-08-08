@@ -1,83 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Age & Day Finder</title>
-    <style>
-        body {
-            background-color: skyblue;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 50px;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-        }
-        input {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-        }
-        button {
-            padding: 10px 20px;
-            border: none;
-            background: #007BFF;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        p {
-            font-size: 18px;
-            margin-top: 15px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age & Day Finder</title>
+  <style>
+    body {
+      background-color: #87CEEB;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 350px;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    input[type="date"] {
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Find Your Age & Day of Birth</h2>
-        <input type="date" id="dob">
-        <br>
-        <button onclick="calculate()">Calculate</button>
-        <p id="ageResult"></p>
-        <p id="dayResult"></p>
-    </div>
+  <div class="card">
+    <h2>Find Your Age & Day of Birth</h2>
+    <input type="date" id="dob">
+    <button onclick="calculateAge()">Calculate</button>
+    <div class="result" id="result"></div>
+  </div>
 
-    <script>
-        function calculate() {
-            const dobInput = document.getElementById("dob").value;
-            if (!dobInput) {
-                alert("Please select your date of birth");
-                return;
-            }
+  <script>
+    function calculateAge() {
+      let dob = document.getElementById("dob").value;
+      if (!dob) {
+        document.getElementById("result").innerHTML = "Please select your date of birth.";
+        return;
+      }
 
-            const dob = new Date(dobInput);
-            const today = new Date();
+      let birthDate = new Date(dob);
+      let today = new Date();
 
-            // Calculate Age
-            let age = today.getFullYear() - dob.getFullYear();
-            const monthDiff = today.getMonth() - dob.getMonth();
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                age--;
-            }
+      let years = today.getFullYear() - birthDate.getFullYear();
+      let months = today.getMonth() - birthDate.getMonth();
+      let days = today.getDate() - birthDate.getDate();
 
-            // Find Day of the Week
-            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const dayName = days[dob.getDay()];
+      if (days < 0) {
+        months--;
+        let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+        days += prevMonth;
+      }
 
-            // Display results
-            document.getElementById("ageResult").innerText = `Your Age: ${age} years`;
-            document.getElementById("dayResult").innerText = `Day of Birth: ${dayName}`;
-        }
-    </script>
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      let dayOfBirth = daysOfWeek[birthDate.getDay()];
+
+      document.getElementById("result").innerHTML = `
+        Your Age: ${years} years, ${months} months, ${days} days <br>
+        Day of Birth: ${dayOfBirth}
+      `;
+    }
+  </script>
 
 </body>
 </html>
