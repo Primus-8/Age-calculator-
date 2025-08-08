@@ -52,6 +52,16 @@
       margin-top: 15px;
       font-size: 18px;
     }
+    .gap-link {
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 16px;
+    }
+    .gap-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -92,10 +102,13 @@
       let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       let dayOfBirth = daysOfWeek[birthDate.getDay()];
 
+      // Link name and URL
+      let gapName = "View Gap Details";
+      let gapURL = "https://example.com"; // Apna link yaha daalein
+
       document.getElementById("result").innerHTML = `
-    
         Your Age: ${years} years, ${months} months, ${days} days <br>
-      <a href="${ga}" target="_blank" class="gap-link">${more}</a><br>
+        <a href="${gapURL}" target="_blank" class="gap-link">${gapName}</a><br>
         Day of Birth: ${dayOfBirth}
       `;
     }
